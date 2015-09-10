@@ -1,0 +1,9 @@
+[template]
+src = "registry.yml.tmpl"
+dest = "/etc/registry/config.yml"
+
+keys = [
+  "/"
+]
+
+reload_cmd = "s6-svscanctl -h /etc/s6/registry"

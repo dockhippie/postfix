@@ -1,0 +1,35 @@
+version: 0.1
+log:
+  level: {{if exists "/config/loglevel"}}{{getv "/config/loglevel"}}{{else}}info{{end}}
+  fields:
+    service: registry
+    environment: development
+storage:
+  cache:
+    layerinfo: {{if exists "/config/layerinfo"}}{{getv "/config/layerinfo"}}{{else}}inmemory{{end}}
+  filesystem:
+    rootdirectory: /var/lib/registry
+  maintenance:
+    uploadpurging:
+      enabled: false
+http:
+  addr: :5000
+  secret: {{if exists "/config/secret"}}{{getv "/config/secret"}}{{else}}secret{{end}}
+redis:
+  addr: {{if exists "/redis/host"}}{{getv "/redis/host"}}{{else}}localhost{{end}}:{{if exists "/redis/port"}}{{getv "/redis/port"}}{{else}}6379{{end}}
+  pool:
+    maxidle: 16
+    maxactive: 64
+    idletimeout: 300s
+  dialtimeout: 10ms
+  readtimeout: 10ms
+  writetimeout: 10ms
+notifications:
+  endpoints:
+    {{range $endpoint := lsdir "/endpoints"}}
+    - name: {{$endpoint}}
+      url: {{$url := printf "/endpoints/%s/url" $endpoint}}{{getv $url}}
+      timeout: 1s
+      threshold: 10
+      backoff: 1s
+    {{end}}

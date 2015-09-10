@@ -1,0 +1,34 @@
+#!/bin/bash
+
+case "${DISCOVERY_TYPE}" in
+  etcd)
+    DISCOVERY_COMMAND="confd -backend etcd -node ${DISCOVERY_HOST}:${DISCOVERY_PORT} -prefix ${DISCOVERY_PREFIX}"
+
+    if [ -n "${DISCOVERY_CLIENT_KEY}" ]
+    then
+      if [ ! -f "${DISCOVERY_CLIENT_KEY}" ]
+      then
+        echo -e "${DISCOVERY_CLIENT_KEY}" >| /tmp/etcd.key
+        export DISCOVERY_CLIENT_KEY=/tmp/etcd.key
+      fi
+    fi
+
+    if [ -n "${DISCOVERY_CLIENT_CERT}" ]
+    then
+      if [ ! -f "${DISCOVERY_CLIENT_CERT}" ]
+      then
+        echo -e "${DISCOVERY_CLIENT_CERT}" >| /tmp/etcd.crt
+        export DISCOVERY_CLIENT_CERT=/tmp/etcd.crt
+      fi
+    fi
+
+    if [ -n "${DISCOVERY_CLIENT_CA}" ]
+    then
+      if [ ! -f "${DISCOVERY_CLIENT_CA}" ]
+      then
+        echo -e "${DISCOVERY_CLIENT_CA}" >| /tmp/ca.crt
+        export DISCOVERY_CLIENT_CA=/tmp/ca.crt
+      fi
+    fi
+    ;;
+esac
