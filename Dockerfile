@@ -11,37 +11,38 @@ ENV DISCOVERY_PREFIX /
 
 
 
-RUN apk add --update \
-  build-base \
-  python-dev \
-  python \
-  py-pip \
-  py-setuptools \
-  libxslt-dev \
-  libxml2-dev \
-  postfix \
-  postfix-mysql \
-  postfix-sqlite \
-  dovecot \
-  dovecot-mysql \
-  dovecot-sqlite \
-  spamassassin \
-  amavisd-new \
-  clamav \
-  dovecot-pigeonhole-plugin@testing \
-  radicale@testing && \
-  rm -rf /var/cache/apk/* && \
+RUN apk update && \
+  apk add \
+    build-base \
+    python-dev \
+    python \
+    py-pip \
+    py-setuptools \
+    libxslt-dev \
+    libxml2-dev \
+    postfix \
+    postfix-mysql \
+    postfix-sqlite \
+    dovecot \
+    dovecot-mysql \
+    dovecot-sqlite \
+    spamassassin \
+    amavisd-new \
+    clamav \
+    dovecot-pigeonhole-plugin@testing \
+    radicale@testing && \
   pip install -U \
-  modoboa \
-  modoboa-admin \
-  modoboa-amavis \
-  modoboa-admin-relaydomains \
-  modoboa-stats \
-  modoboa-postfix-autoreply \
-  modoboa-radicale \
-  modoboa-sievefilters \
-  modoboa-webmail \
-  modoboa-admin-limits
+    modoboa \
+    modoboa-admin \
+    modoboa-amavis \
+    modoboa-admin-relaydomains \
+    modoboa-stats \
+    modoboa-postfix-autoreply \
+    modoboa-radicale \
+    modoboa-sievefilters \
+    modoboa-webmail \
+    modoboa-admin-limits \
+  rm -rf /var/cache/apk/*
 
 # modoboa-admin.py deploy webhippie --collectstatic --dburl default:sqlite:////var/lib/modoboa/database.sqlite3 --domain mail.webhippie.de --lang en --timezone Europe/Berlin --extensions all
 
@@ -51,4 +52,4 @@ ADD rootfs /
 EXPOSE 443
 
 WORKDIR /root
-CMD ["/usr/bin/s6-svscan","/etc/s6"]
+CMD ["/bin/s6-svscan", "/etc/s6"]
