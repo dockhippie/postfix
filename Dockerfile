@@ -1,4 +1,4 @@
-FROM webhippie/alpine:latest@sha256:153cead8447ed8da4f0dafe7a839bac3c6375afb44a0be3ccb600f1a9727252c
+FROM webhippie/alpine:latest@sha256:139eec0b189638096d65847ecdb00e6a2260bf785cb0f93a7eaa012e6b075789
 MAINTAINER Thomas Boerger <thomas@webhippie.de>
 
 
